@@ -26,6 +26,7 @@
     <head>
         <!--CSS-->
         <link rel="stylesheet" href="style.css">
+        <link rel="alternate" type="application/rss+xml" title="3D Printanje - Vijesti" href="rss.php">
         <!--End CSS--> 
 
         <!--meta elements-->

@@ -51,6 +51,7 @@
             <div class="socialmedia">
                 <p>Social media:
                 <br>
+                <a href="rss.php" target="_blank"><img src="img/rss.jpg" alt="RSS Feed" title="RSS Feed" style="width:24px; margin-top:0.4em"></a>
                 <a href="https://www.facebook.com/3dglobe5/" target="_blank"><img src="img/facebook.webp" alt="facebook" title="facebook" style="width:24px; margin-top:0.4em"></a>
                 <a href="https://twitter.com/3dglobe1" target="_blank"><img src="img/twitter (X).png" alt="X" title="X" style="height:24px; width: 25px; margin-top:0.4em;"></a>
                 <a href="https://www.youtube.com/channel/UCDnKHzub2nofWSyv1hDqWKw" target="_blank"><img src="img/youtube.webp" style=" height:24px; width:24px; margin-top:0.4em"></a>
