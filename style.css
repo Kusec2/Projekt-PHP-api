@@ -315,6 +315,37 @@ section {
     border-radius: 10px; /* Zaobljeni rubovi kontejnera */
 }
 
+.valuta-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0 15px 0;
+}
+
+.valuta-label {
+    font-weight: bold;
+    color: #fff;
+    font-size: 14px;
+}
+
+.valuta-select {
+    background-color: #1a3a5c !important;
+    color: #fff !important;
+    border: 2px solid #7dc242 !important;
+    border-radius: 6px !important;
+    padding: 6px 12px !important;
+    font-size: 14px !important;
+    cursor: pointer;
+    outline: none;
+    width: auto !important;
+    margin: 0 !important;
+}
+
+.valuta-select:hover {
+    background-color: #7dc242;
+    color: #1a3a5c;
+}
+
 #cijena{
     color:green;
     font-weight:bold;

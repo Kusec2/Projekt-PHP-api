@@ -254,4 +254,39 @@
 	?>
         </main>
     </body>
+
+	<script>
+    const opis = document.getElementById('opis');
+    
+    if (opis) {
+        // Kreiraj element za brojač
+        const brojac = document.createElement('small');
+        brojac.id = 'brojar';
+        brojac.style.color = '#888';
+        opis.parentNode.insertBefore(brojac, opis.nextSibling);
+
+        const maxZnakova = 1000;
+
+        function osvjezibrojac() {
+            const preostalo = maxZnakova - opis.value.length;
+            brojac.textContent = preostalo + ' znakova preostalo';
+
+            if (preostalo < 100) {
+                brojac.style.color = 'orange';
+            }
+            if (preostalo < 0) {
+                brojac.style.color = 'red';
+                brojac.textContent = Math.abs(preostalo) + ' znakova previše!';
+            }
+            if (preostalo >= 100) {
+                brojac.style.color = '#888';
+            }
+        }
+
+        // Pokreni odmah (za edit formu gdje već postoji tekst)
+        osvjezibrojac();
+
+        opis.addEventListener('input', osvjezibrojac);
+    }
+</script>
 </html>

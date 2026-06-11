@@ -1,3 +1,32 @@
+<?php
+if(!defined('__APP__')) { die("Hacking attempt"); }
+
+$valuta = isset($_GET['valuta']) ? strtoupper($_GET['valuta']) : 'EUR';
+$dozvoljene = ['EUR', 'USD', 'GBP', 'CHF', 'JPY', 'CNY'];
+if (!in_array($valuta, $dozvoljene)) { $valuta = 'EUR'; }
+
+$tecaj = 1.0;
+
+if ($valuta !== 'EUR') {
+    $env      = parse_ini_file(__DIR__ . '/.env');
+    $url      = $env['API_CURRENCY'] . $valuta;
+    $response = file_get_contents($url);
+    $data     = json_decode($response, true);
+
+    if (isset($data['rates'][$valuta])) {
+        $tecaj = $data['rates'][$valuta];
+    }
+}
+
+function prikaziCijenu($cijena_eur, $tecaj, $valuta) {
+    $konvertirana = round($cijena_eur * $tecaj, 2);
+    $simbol = [
+    'EUR' => '€', 'USD' => '$', 'GBP' => '£',
+    'CHF' => 'CHF', 'JPY' => '¥', 'CNY' => '¥'
+    ];
+    return number_format($konvertirana, 2, ',', '.') . ' ' . $simbol[$valuta];
+}
+?>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -8,6 +37,21 @@
         </header>
         <main>
             <h1>Galerija</h1>
+            <form method="GET" action="index.php" class="valuta-form">
+                <input type="hidden" name="menu" value="2">
+                <input type="hidden" name="submenu" value="1">
+                
+                <label for="valuta" class="valuta-label">Prikaži cijene u:</label>
+                
+                <select name="valuta" id="valuta" class="valuta-select" onchange="this.form.submit()">
+                    <option value="EUR" <?= $valuta=='EUR' ? 'selected' : '' ?>>EUR €</option>
+                    <option value="USD" <?= $valuta=='USD' ? 'selected' : '' ?>>USD $</option>
+                    <option value="GBP" <?= $valuta=='GBP' ? 'selected' : '' ?>>GBP £</option>
+                    <option value="CHF" <?= $valuta=='CHF' ? 'selected' : '' ?>>CHF</option>
+                    <option value="JPY" <?= $valuta=='JPY' ? 'selected' : '' ?>>JPY ¥</option>
+                    <option value="CNY" <?= $valuta=='CNY' ? 'selected' : '' ?>>CNY ¥</option>
+                </select>
+            </form>
             <nav class="podstranice">
                 <ul>
                     <li><a href="index.php?menu=2&amp;submenu=1">FDM Printeri</a></li>
@@ -35,7 +79,7 @@
                                 <li>G34 Automatsko Z poravnanje</li>
                             </ul>
                         </ul>
-                           <p class="cijena"><span id="cijena">Cijena:</span> cca 300,00 &euro;</p>
+                           <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(300, $tecaj, $valuta) ?></p>
                             
 
                         
@@ -61,7 +105,7 @@
 
                             </ul>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 260,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(260, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
             </div>
@@ -84,7 +128,7 @@
                                 </ul>
                                 </li>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 200,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(200, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
                 
@@ -108,7 +152,7 @@
                                 </ul>
                                 </li>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 1000,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(1000, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
                 
@@ -132,7 +176,7 @@
                                 </ul>
                                 </li>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 800,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(800, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
                 
@@ -156,7 +200,7 @@
                                 </ul>
                                 </li>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 300,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(300, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
                 

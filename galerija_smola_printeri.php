@@ -1,3 +1,33 @@
+<?php
+if(!defined('__APP__')) { die("Hacking attempt"); }
+
+$valuta = isset($_GET['valuta']) ? strtoupper($_GET['valuta']) : 'EUR';
+$dozvoljene = ['EUR', 'USD', 'GBP', 'CHF', 'JPY', 'CNY'];
+if (!in_array($valuta, $dozvoljene)) { $valuta = 'EUR'; }
+
+$tecaj = 1.0;
+
+if ($valuta !== 'EUR') {
+    $env      = parse_ini_file(__DIR__ . '/.env');
+    $url      = $env['API_CURRENCY'] . $valuta;
+    $response = file_get_contents($url);
+    $data     = json_decode($response, true);
+
+    if (isset($data['rates'][$valuta])) {
+        $tecaj = $data['rates'][$valuta];
+    }
+}
+
+function prikaziCijenu($cijena_eur, $tecaj, $valuta) {
+    $konvertirana = round($cijena_eur * $tecaj, 2);
+    $simbol = [
+    'EUR' => '€', 'USD' => '$', 'GBP' => '£',
+    'CHF' => 'CHF', 'JPY' => '¥', 'CNY' => '¥'
+    ];
+    return number_format($konvertirana, 2, ',', '.') . ' ' . $simbol[$valuta];
+}
+?>
+
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -6,6 +36,21 @@
     <body>
         <header>
             <h1>Galerija</h1> 
+                <form method="GET" action="index.php" class="valuta-form">
+                    <input type="hidden" name="menu" value="2">
+                    <input type="hidden" name="submenu" value="2">
+                    
+                    <label for="valuta" class="valuta-label">Prikaži cijene u:</label>
+                    
+                    <select name="valuta" id="valuta" class="valuta-select" onchange="this.form.submit()">
+                        <option value="EUR" <?= $valuta=='EUR' ? 'selected' : '' ?>>EUR €</option>
+                        <option value="USD" <?= $valuta=='USD' ? 'selected' : '' ?>>USD $</option>
+                        <option value="GBP" <?= $valuta=='GBP' ? 'selected' : '' ?>>GBP £</option>
+                        <option value="CHF" <?= $valuta=='CHF' ? 'selected' : '' ?>>CHF</option>
+                        <option value="JPY" <?= $valuta=='JPY' ? 'selected' : '' ?>>JPY ¥</option>
+                        <option value="CNY" <?= $valuta=='CNY' ? 'selected' : '' ?>>CNY ¥</option>
+                    </select>
+                </form>
             
             <nav class="podstranice">
                 <ul>
@@ -36,7 +81,7 @@
                                 <li>Sustav hlađenja s dva ventilatora za učinkovito odvođenje topline i hlađenje</li>
                             </ul>
                         </ul>
-                           <p class="cijena"><span id="cijena">Cijena:</span> cca 250,00 &euro;</p>
+                           <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(250, $tecaj, $valuta) ?></p>
                             
 
                         
@@ -62,7 +107,7 @@
 
                             </ul>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 520,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(520, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
             </div>
@@ -85,7 +130,7 @@
                                 </ul>
                                 </li>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 900,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(900, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
             </div>
@@ -108,7 +153,7 @@
                                 </ul>
                                 </li>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 550,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(550, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
             </div>
@@ -132,7 +177,7 @@
                                 </ul>
                                 </li>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 1800,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(1500, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
             </div>
@@ -141,7 +186,7 @@
                     <img src="img/Photon Mono X 6Ks.webp">
                     
                     <figcaption>
-                        <h3>Phrozen: Sonic Mega 8K S</h3>
+                        <h3>Photon: Mono X 6Ks</h3>
                         <ul>
                             
                             <li>Rezolucija ispisa: 5760 x 3600 piksela </li>
@@ -156,7 +201,7 @@
                                 </ul>
                                 </li>
                         </ul>
-                        <p class="cijena"><span id="cijena">Cijena:</span> cca 300,00 &euro;</p>
+                        <p class="cijena"><span id="cijena">Cijena:</span> <?= prikaziCijenu(420, $tecaj, $valuta) ?></p>
                     </figcaption>
                 </figure>
             </div>

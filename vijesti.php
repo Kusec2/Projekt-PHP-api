@@ -7,7 +7,7 @@
 
 <?php
 
-	if (isset($action) && $action != '') {
+	if (isset($action) && $action > 0) {
 		$query  = "SELECT * FROM news";
 		$query .= " WHERE id=" . $_GET['action'];
 		$result = @mysqli_query($MySQL, $query);
