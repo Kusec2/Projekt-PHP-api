@@ -25,4 +25,4 @@
 # Ignorira test coverage fajlove
 coverage/
 
-dbconn.php
+*.dbconn.php
