@@ -9,7 +9,7 @@ $tecaj = 1.0;
 
 if ($valuta !== 'EUR') {
     $env      = parse_ini_file(__DIR__ . '/.env');
-    $url      = $env['API_CURRENCY'] . $valuta;
+    $url      = "https://api.frankfurter.app/latest?from=EUR&to=" . $valuta;
     $response = file_get_contents($url);
     $data     = json_decode($response, true);
 
