@@ -265,7 +265,7 @@
         brojac.style.color = '#888';
         opis.parentNode.insertBefore(brojac, opis.nextSibling);
 
-        const maxZnakova = 1000;
+        const maxZnakova = 1500;
 
         function osvjezibrojac() {
             const preostalo = maxZnakova - opis.value.length;
